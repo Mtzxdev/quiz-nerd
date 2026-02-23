@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Nerd Super Master Hard</title>
+
+<style>
+body {
+    background-color: black;
+    color: white;
+    font-family: Verdana;
+    text-align: center;
+    margin: 0;
+}
+
+/* Tela centralizada */
+.screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 12px;
+    margin: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    max-width: 350px;
+}
+
+button:hover {
+    background-color: #222;
+}
+
+.quiz-container {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MENU -->
+<div id="menu" class="screen">
+    <h1>🔥 Quiz Nerd 🔥</h1>
+    <button onclick="startQuiz()">INICIAR</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="quiz-container">
+    <h3 id="question"></h3>
+    <div id="answers"></div>
+    <h2 id="result"></h2>
+</div>
+
+<script>
+
+const questions = [
+
+{
+    question: "Qual é o nome do domínio de expansão do Gojo?",
+    answers: ["Vazio Ilimitado", "Infinito Azul", "Prisão Espacial", "Olho Absoluto"],
+    correct: 0
+},
+{
+    question: "Qual era o nome original do projeto de desenvolvimento de Minecraft?",
+    answers: ["Cave Game", "BlockCraft", "MineWorld", "CubeLife"],
+    correct: 0
+},
+{
+    question: "Qual foi o primeiro Pokémon desenhado oficialmente?",
+    answers: ["Mew", "Clefairy", "Rhydon", "Gengar"],
+    correct: 2
+},
+{
+    question: "Qual engine foi usada para desenvolver o primeiro Half-Life?",
+    answers: ["Source", "GoldSrc", "Unreal Engine", "id Tech 2"],
+    correct: 1
+},
+{
+    question: "Qual é o nome verdadeiro de L em Death Note?",
+    answers: ["L Lawliet", "Light Yagami", "Near River", "Lind L. Tailor"],
+    correct: 0
+},
+{
+    question: "Qual empresa originalmente publicou Demon’s Souls no Japão?",
+    answers: ["Bandai Namco", "Sony Computer Entertainment", "FromSoftware", "Capcom"],
+    correct: 1
+},
+{
+    question: "Qual foi o primeiro console a usar CD como mídia principal?",
+    answers: ["PlayStation 1", "Sega CD", "Neo Geo CD", "PC Engine CD"],
+    correct: 3
+},
+{
+    question: "Qual é o nome da habilidade especial do Levi relacionada à linhagem Ackerman?",
+    answers: ["Despertar Instintivo", "Modo Titã", "Força Primordial", "Contrato Real"],
+    correct: 0
+},
+{
+    question: "Em que ano lançou o primeiro GTA?",
+    answers: ["1995", "1997", "1999", "2001"],
+    correct: 1
+},
+{
+    question: "Qual é o nome da Akuma no Mi do Luffy (revelação recente)?",
+    answers: ["Gomu Gomu no Mi", "Hito Hito no Mi Modelo Nika", "Mera Mera no Mi", "Gura Gura no Mi"],
+    correct: 1
+},
+{
+    question: "Qual é o continente proibido em Hunter x Hunter?",
+    answers: ["Novo Mundo", "Continente Negro", "Ilha Sombria", "Marley"],
+    correct: 1
+},
+{
+    question: "Qual estúdio animou Death Note?",
+    answers: ["MAPPA", "Madhouse", "Bones", "Toei"],
+    correct: 1
+},
+{
+    question: "Qual é o nome do reino destruído ligado a Meliodas?",
+    answers: ["Liones", "Camelot", "Danafor", "Britannia"],
+    correct: 2
+},
+{
+    question: "Qual personagem matou a família do Sasuke?",
+    answers: ["Itachi com ajuda da Akatsuki", "Madara", "Obito sozinho", "Danzo"],
+    correct: 0
+},
+{
+    question: "Qual foi o primeiro chefe opcional de Dark Souls?",
+    answers: ["Sif", "Gwyndolin", "Capra Demon", "Stray Demon"],
+    correct: 3
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function startQuiz() {
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("quiz").style.display = "flex";
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const q = questions[currentQuestion];
+    document.getElementById("question").innerText =
+        "Pergunta " + (currentQuestion + 1) + " de " + questions.length + ": " + q.question;
+
+    const answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+
+    q.answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+        button.innerText = answer;
+        button.onclick = () => checkAnswer(index);
+        answersDiv.appendChild(button);
+    });
+}
+
+function checkAnswer(index) {
+    if (index === questions[currentQuestion].correct) {
+        score++;
+        document.getElementById("result").innerText = "Acertou 😎🔥";
+    } else {
+        document.getElementById("result").innerText = "Errou 😢";
+    }
+
+    currentQuestion++;
+
+    setTimeout(() => {
+        document.getElementById("result").innerText = "";
+        if (currentQuestion < questions.length) {
+            loadQuestion();
+        } else {
+            document.getElementById("question").innerText =
+                "Fim do jogo! Pontuação: " + score + "/" + questions.length;
+
+            if (score >= 13) {
+                document.getElementById("result").innerText = "👑 LENDÁRIO ABSOLUTO";
+            } else if (score >= 8) {
+                document.getElementById("result").innerText = "🔥 Nerd Hardcore";
+            } else {
+                document.getElementById("result").innerText = "💀 NPC";
+            }
+
+            document.getElementById("answers").innerHTML = "";
+        }
+    }, 1000);
+}
+
+</script>
+
+</body>
+</html>
